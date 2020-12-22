@@ -1,68 +1,69 @@
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
+const body = Matter.Body;
+const Render= Matter.Render;
 const Constraint = Matter.Constraint;
 
-var engine, world;
-var box1, pig1;
-var backgroundImg,platform;
-var bird, slingShot;
 
-function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+function setup() {
+	createCanvas(1000, 600);
+
+
+	engine = Engine.create();
+	world = engine.world;
+
+	bob1=new Bob(300,350,20);
+	bob2=new Bob(350,350,20);
+
+	bob3=new Bob(400,350,20);
+	bob4=new Bob(450,350,20);
+
+	bob5=new Bob(500,350,20);
+
+	ground1 = new Ground(400,100,300,40);
+	sling1= new Rope(bob1.body,ground1.body,-80,0);
+	
+	sling2= new Rope(bob2.body,ground1.body,-40,0);
+
+	sling3= new Rope(bob3.body,ground1.body,0,0);
+
+	sling4= new Rope(bob4.body,ground1.body,40,0);
+
+	sling5= new Rope(bob5.body,ground1.body,80,0);
+
+	
 }
 
-function setup(){
-    var canvas = createCanvas(1200,400);
-    engine = Engine.create();
-    world = engine.world;
 
+function draw() {
+  background("Blue");
+  Engine.update(engine);
+  textSize(20);
+  stroke("red")
+  text("Press up arrow first and then immediately down arrow",160,50);
+  rectMode(CENTER);
+  bob1.display();
+  bob2.display();
+  bob3.display();
+  bob3.display();
+  bob4.display();
+  bob5.display();
+  ground1.display();
+  sling1.display();
+  sling2.display();
+  sling3.display();
+  sling4.display();
+  sling5.display();
 
-    ground = new Ground(600,height,1200,20);
-    platform = new Ground(150, 305, 300, 170);
-
-    box1 = new Box(700,320,70,70);
-    box2 = new Box(920,320,70,70);
-    pig1 = new Pig(810, 350);
-    log1 = new Log(810,260,300, PI/2);
-
-    box3 = new Box(700,240,70,70);
-    box4 = new Box(920,240,70,70);
-    pig3 = new Pig(810, 220);
-
-    log3 =  new Log(810,180,300, PI/2);
-
-    box5 = new Box(810,160,70,70);
-    log4 = new Log(760,120,150, PI/7);
-    log5 = new Log(870,120,150, -PI/7);
-
-    bird = new Bird(100,100);
-
-    log6 = new Log(230,180,80, PI/2);
-    chain = new Chain(bird.body,log6.body);
+  drawSprites ();
 }
+function keyPressed() {
+	if (keyCode === UP_ARROW) {
+	  Matter.Body.applyForce(bob1.body,bob1.body.position,{x:-70,y:-65});  
+	}
+	if (keyCode === DOWN_ARROW) {
+	  Matter.Body.applyForce(bob5.body,bob5.body.position,{x:70,y:65});  
+	}
 
-function draw(){
-    background(backgroundImg);
-    Engine.update(engine);
-    strokeWeight(4);
-    box1.display();
-    box2.display();
-    ground.display();
-    pig1.display();
-    log1.display();
-
-    box3.display();
-    box4.display();
-    pig3.display();
-    log3.display();
-
-    box5.display();
-    log4.display();
-    log5.display();
-
-    bird.display();
-    platform.display();
-    log6.display();
-    chain.display();    
 }
